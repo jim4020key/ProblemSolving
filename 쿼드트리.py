@@ -1,0 +1,25 @@
+import sys
+input = sys.stdin.readline
+n = int(input())
+array = []
+result = []
+for _ in range(n):
+    array.append(list(map(int, input().rstrip())))
+
+def quad_tree(x, y, n):
+    global result
+    color = array[x][y]
+    for i in range(x, x+n):
+        for j in range(y, y+n):
+            if color != array[i][j]:
+                result.append('(')
+                quad_tree(x, y, n//2)
+                quad_tree(x, y+n//2, n//2)
+                quad_tree(x+n//2, y, n//2)
+                quad_tree(x+n//2, y+n//2, n//2)
+                result.append(')')
+                return
+    result.append(color)
+
+quad_tree(0, 0, n)
+print(''.join(map(str, result)))
